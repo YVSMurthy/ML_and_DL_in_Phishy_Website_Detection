@@ -2,9 +2,16 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import os
+
+# Get the absolute path to the current directory (project root)
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the absolute path to the dataset.csv file
+dataset_path = os.path.join(current_dir, 'dataset_creation', 'phishy_website_dataset.csv')
 
 
-data = pd.read_csv("./dataset_creation/phishy_website_dataset.csv")
+data = pd.read_csv(dataset_path)
 
 #extracting out the required feature columns from the dataset
 req_cols = [
