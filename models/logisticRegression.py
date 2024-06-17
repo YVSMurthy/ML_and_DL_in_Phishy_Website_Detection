@@ -37,7 +37,7 @@ plt.title("Single Usage")
 plt.show()
 
 # Logistic regression with AdaBoost classifier
-adaClassifier = AdaBoostClassifier(estimator=model, random_state=42)
+adaClassifier = AdaBoostClassifier(estimator=model, random_state=42, algorithm='SAMME')
 adaClassifier.fit(x_train, y_train)
 y_pred2 = adaClassifier.predict(x_test)
 
