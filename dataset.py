@@ -33,8 +33,9 @@ y = data['status'].values
 mapping = {'Legitimate': 0, 'Phishy': 1}
 y = np.array([mapping[label] for label in y])
 
+x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.3, random_state=42)
+
 #scaling down values to between -1 to 1
 scaler = StandardScaler()
-x = scaler.fit_transform(x)
-
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.3, random_state=42)
+x_train = scaler.fit_transform(x_train)
+x_test = scaler.transform(x_test)
