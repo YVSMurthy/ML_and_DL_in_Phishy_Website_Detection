@@ -10,6 +10,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Construct the absolute path to the dataset.csv file
 dataset_path1 = os.path.join(current_dir, 'dataset_creation', 'UCI_feature_extract_dataset.csv')
 dataset_path2 = os.path.join(current_dir, 'dataset_creation', 'Kaggle_feature_extract_dataset.csv')
+dataset_path3 = dataset_path2 = os.path.join(current_dir, 'dataset_creation', 'phishy_website_dataset.csv')
 
 
 data = pd.read_csv(dataset_path1)

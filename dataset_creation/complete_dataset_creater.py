@@ -149,11 +149,12 @@ def parse_url(url):
     return statistical_report
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-original_file = os.path.join(current_dir, 'website_list2.csv')
+original_file = os.path.join(current_dir, 'website_list3.csv')
 data = pd.read_csv(original_file)
+# data = pd.read_excel(original_file)
 
-# mapping = {'legitimate': 1, 'phishing': 0}
-# data['label'] = data['label'].map(mapping)
+mapping = {'Legitimate': 1, 'Phishy': 0}
+data['label'] = data['label'].map(mapping)
 # print(data)
 
 #shuffling the data
@@ -173,5 +174,5 @@ req_cols = [
 
 output = pd.DataFrame(output, columns=req_cols)
 # print(output)
-output_path = os.path.join(current_dir, 'UCI_feature_extract_dataset.csv')
+output_path = os.path.join(current_dir, 'Kaggle_feature_extract_dataset.csv')
 output.to_csv(output_path, index=False)
