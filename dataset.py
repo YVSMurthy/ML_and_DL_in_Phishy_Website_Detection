@@ -8,10 +8,12 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the absolute path to the dataset.csv file
-dataset_path = os.path.join(current_dir, 'dataset_creation', 'phishy_website_dataset.csv')
+dataset_path1 = os.path.join(current_dir, 'dataset_creation', 'UCI_feature_extract_dataset.csv')
+dataset_path2 = os.path.join(current_dir, 'dataset_creation', 'Kaggle_feature_extract_dataset.csv')
 
 
-data = pd.read_csv(dataset_path)
+data = pd.read_csv(dataset_path1)
+data_uk = pd.read_csv(dataset_path2)
 
 #extracting out the required feature columns from the dataset
 req_cols = [
@@ -24,18 +26,30 @@ req_cols = [
     'avg_word_path', 'phish_hints','domain_in_brand', 'brand_in_subdomain', 'brand_in_path', 'suspecious_tld'
 ]
 
+# #initialising independent variables
+# x = data[req_cols].values
+# x_uk = data_uk[req_cols].values
+
+# #initialising dependent variables
+# y = data['label'].values
+# y_uk = data_uk['label'].values
+
 #initialising independent variables
-x = data[req_cols].values
+x = data.drop(columns=['url','label'])
+x_uk = data_uk.drop(columns=['url','label'])
 
 #initialising dependent variables
-y = data['status'].values
-#mapping legitimate as 0 and phishy as 1
-mapping = {'Legitimate': 0, 'Phishy': 1}
-y = np.array([mapping[label] for label in y])
+y = data['label'].values
+y_uk = data_uk['label'].values
 
-x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.3, random_state=42)
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
+
+x_train_uk, x_test_uk, y_train_uk, y_test_uk = train_test_split(x_uk, y_uk, test_size=0.2, random_state=0)
 
 #scaling down values to between -1 to 1
 scaler = StandardScaler()
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
+
+x_train_uk = scaler.fit_transform(x_train_uk)
+x_test_uk = scaler.transform(x_test_uk)

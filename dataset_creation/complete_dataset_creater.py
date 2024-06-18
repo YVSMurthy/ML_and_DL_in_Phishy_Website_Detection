@@ -1,7 +1,9 @@
+import numpy as np
 import pandas as pd
 import urllib
 from bs4 import BeautifulSoup
 import re
+import os
 
 def parse_url(url):
     parsed_url = urllib.parse.urlparse(url)
@@ -146,7 +148,12 @@ def parse_url(url):
 
     return statistical_report
 
-data = pd.read_excel('./website_list.xlsx')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+original_file = os.path.join(current_dir, 'website_list2.csv')
+data = pd.read_csv(original_file)
+
+# mapping = {'legitimate': 1, 'phishing': 0}
+# data['label'] = data['label'].map(mapping)
 # print(data)
 
 #shuffling the data
@@ -155,16 +162,16 @@ data = data.sample(frac=1).reset_index(drop=True)
 output = []
 for i in range(len(data)):
     url = data['URL'][i]
-    status = data['Status'][i]
-    # print(i, " ", url)
-    url_details = [url] + list(parse_url(url).values()) + [status]
+    label = data['label'][i]
+    print(i, " ", url)
+    url_details = [url] + list(parse_url(url).values()) + [label]
     output.append(url_details)
 
 req_cols = [
-    'url', 'length_url', 'length_hostname', 'nb_dots', 'nb_hyphens', 'nb_at', 'nb_qm', 'nb_and', 'nb_or', 'nb_eq','nb_underscore', 'nb_tilde', 'nb_percent', 'nb_slash', 'nb_star', 'nb_colon', 'nb_comma', 'nb_semicolumn','nb_dollar', 'nb_space', 'nb_www', 'nb_com', 'nb_dslash', 'https_token', 'ratio_digits_url', 'ratio_digits_host','punycode', 'tld_in_path', 'tld_in_subdomain', 'abnormal_subdomain', 'nb_subdomains', 'prefix_suffix', 'random_domain', 'shortening_service', 'path_extension','length_words_raw', 'shortest_words_raw', 'shortest_word_host','shortest_word_path', 'longest_words_raw','longest_word_host', 'longest_word_path', 'avg_words_raw', 'avg_word_host', 'avg_word_path', 'phish_hints', 'domain_in_brand', 'brand_in_subdomain', 'brand_in_path', 'suspecious_tld', 'status'
+    'url', 'length_url', 'length_hostname', 'nb_dots', 'nb_hyphens', 'nb_at', 'nb_qm', 'nb_and', 'nb_or', 'nb_eq','nb_underscore', 'nb_tilde', 'nb_percent', 'nb_slash', 'nb_star', 'nb_colon', 'nb_comma', 'nb_semicolumn','nb_dollar', 'nb_space', 'nb_www', 'nb_com', 'nb_dslash', 'https_token', 'ratio_digits_url', 'ratio_digits_host','punycode', 'tld_in_path', 'tld_in_subdomain', 'abnormal_subdomain', 'nb_subdomains', 'prefix_suffix', 'random_domain', 'shortening_service', 'path_extension','length_words_raw', 'shortest_words_raw', 'shortest_word_host','shortest_word_path', 'longest_words_raw','longest_word_host', 'longest_word_path', 'avg_words_raw', 'avg_word_host', 'avg_word_path', 'phish_hints', 'domain_in_brand', 'brand_in_subdomain', 'brand_in_path', 'suspecious_tld', 'label'
 ]
 
 output = pd.DataFrame(output, columns=req_cols)
 # print(output)
-
-output.to_csv('./phishy_website_dataset.csv', index=False)
+output_path = os.path.join(current_dir, 'UCI_feature_extract_dataset.csv')
+output.to_csv(output_path, index=False)

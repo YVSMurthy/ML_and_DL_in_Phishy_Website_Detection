@@ -1,1 +1,4 @@
 __pycache__/
+dataset_creation/dataset_phishing.csv
+dataset_creation/UCI_dataset.csv
+dataset_creation/.csv
